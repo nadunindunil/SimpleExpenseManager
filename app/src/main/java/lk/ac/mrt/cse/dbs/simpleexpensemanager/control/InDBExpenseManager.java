@@ -13,6 +13,15 @@ import lk.ac.mrt.cse.dbs.simpleexpensemanager.data.model.Account;
  * Created by NADUN on 12/5/2015.
  */
 public class InDBExpenseManager extends ExpenseManager {
+
+    public InDBExpenseManager() {
+        try {
+            setup();
+        } catch (ExpenseManagerException e) {
+            e.printStackTrace();
+        }
+    }
+
     @Override
     public void setup() throws ExpenseManagerException {
         TransactionDAO inDBTransactionDAO = new InDBTransactionDAO();
