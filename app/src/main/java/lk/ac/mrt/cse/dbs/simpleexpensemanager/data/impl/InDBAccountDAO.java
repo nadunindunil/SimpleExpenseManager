@@ -69,7 +69,7 @@ public class InDBAccountDAO implements AccountDAO {
             }
 
         }
-        return null;
+        return accnames;
     }
 
     @Override
