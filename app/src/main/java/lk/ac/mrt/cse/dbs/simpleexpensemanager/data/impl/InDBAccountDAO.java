@@ -1,6 +1,7 @@
 package lk.ac.mrt.cse.dbs.simpleexpensemanager.data.impl;
 
 import java.sql.ResultSet;
+import java.util.ArrayList;
 import java.util.List;
 
 import lk.ac.mrt.cse.dbs.simpleexpensemanager.data.AccountDAO;
@@ -20,63 +21,54 @@ import android.database.sqlite.*;
  */
 public class InDBAccountDAO implements AccountDAO {
 
-    private SQLiteDatabase myDB;
+    private final SQLiteDatabase myDB;
 
     public InDBAccountDAO() {
-        myDB = SQLiteDatabase.openOrCreateDatabase("db1",null);
-        myDB.execSQL("CREATE TABLE IF NOT EXISTS Accounts(AccountNO VARCHAR,BLOB account);");
+        this.myDB = SQLiteDatabase.openOrCreateDatabase("130217B",null);
+        this.myDB.execSQL("CREATE TABLE IF NOT EXISTS Accounts(AccountNO VARCHAR,BankName VARCHAR,HolderName VARCHAR,balance NUMERIC(7,2));");
     }
 
     @Override
     public List<String> getAccountNumbersList() {
-        List<String> anums = null;
+        List<String> anums  = null;
+        anums.add("sedfr4");
+        System.out.println(anums.size());
+        System.out.println("in the accounts number list");
         Cursor cursor = myDB.rawQuery("SELECT AccountNO FROM Accounts", null);
 
         if (cursor != null) {
-
             if (cursor.moveToFirst()) {
-
                 do {
-
                     String num = cursor.getString(cursor.getColumnIndex("AccountNO"));
-
                     anums.add(num);
-
                 } while (cursor.moveToNext());
-
             }
-
         }
         return anums;
     }
 
     @Override
     public List<Account> getAccountsList() {
-        List<Account> accnames = null;
-        Cursor cursor = myDB.rawQuery("SELECT account FROM Accounts", null);
 
-        if (cursor != null) {
-
-            if (cursor.moveToFirst()) {
-
-                do {
-
-                    Object num = cursor.getBlob(cursor.getColumnIndex("account"));
-                    Account ob = (Account) num;
-
-                    accnames.add(ob);
-
-                } while (cursor.moveToNext());
-
-            }
-
+        List<Account> accountList = new ArrayList<>();
+        Cursor details = myDB.rawQuery("SELECT * FROM Accounts",null);
+        details.moveToFirst();
+        while (!details.isAfterLast()) {
+            String accountNo= details.getString(0);
+            String bankName= details.getString(1);
+            String accountHolderName= details.getString(2);
+            double balance =details.getDouble(3);
+            Account acnt =new Account(accountNo,bankName,accountHolderName,balance);
+            accountList.add(acnt);
+            details.moveToNext();
         }
-        return accnames;
+        return accountList;
     }
 
     @Override
     public Account getAccount(String accountNo) throws InvalidAccountException {
-        return null;
+        Account ac = new Account("12123213U","Kottawa","Nadun",2345.0);
+        return ac;
     }
 
     @Override

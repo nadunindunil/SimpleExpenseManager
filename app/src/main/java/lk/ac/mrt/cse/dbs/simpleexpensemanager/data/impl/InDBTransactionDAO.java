@@ -14,15 +14,15 @@ import lk.ac.mrt.cse.dbs.simpleexpensemanager.data.model.Transaction;
  */
 public class InDBTransactionDAO implements TransactionDAO{
 
-    private SQLiteDatabase myDB;
+    private final SQLiteDatabase myDB;
 
     public InDBTransactionDAO() {
-        myDB = SQLiteDatabase.openOrCreateDatabase("db1",null);
-        myDB.execSQL("CREATE TABLE IF NOT EXISTS Accounts(Date DATE,AccountNO VARCHAR,expenseType VARCHAR,amount NUMERIC(7,2));");
+        this.myDB = SQLiteDatabase.openOrCreateDatabase("130217B" ,null);
+        this.myDB.execSQL("CREATE TABLE IF NOT EXISTS Transactions(Date DATE,AccountNO VARCHAR,expenseType VARCHAR,amount NUMERIC(7,2));");
     }
     @Override
     public void logTransaction(Date date, String accountNo, ExpenseType expenseType, double amount) {
-        myDB.execSQL("INSERT INTO Accounts VALUES('" + date +"','"+ accountNo +"','"+ expenseType +"','"+ amount +"');");
+        myDB.execSQL("INSERT INTO Transactions VALUES('" + date +"','"+ accountNo +"','"+ expenseType +"','"+ amount +"');");
     }
 
     @Override
