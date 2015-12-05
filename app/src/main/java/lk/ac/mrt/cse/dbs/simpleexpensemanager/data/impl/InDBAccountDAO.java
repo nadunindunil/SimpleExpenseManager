@@ -1,5 +1,6 @@
 package lk.ac.mrt.cse.dbs.simpleexpensemanager.data.impl;
 
+import java.sql.ResultSet;
 import java.util.List;
 
 import lk.ac.mrt.cse.dbs.simpleexpensemanager.data.AccountDAO;
@@ -23,7 +24,7 @@ public class InDBAccountDAO implements AccountDAO {
 
     public InDBAccountDAO() {
         myDB = SQLiteDatabase.openOrCreateDatabase("db1",null);
-        myDB.execSQL("CREATE TABLE IF NOT EXISTS Accounts(Username VARCHAR,AccountNO VARCHAR,BankName VARCHAR,Balance NUMERIC(7,2));");
+        myDB.execSQL("CREATE TABLE IF NOT EXISTS Accounts(AccountNO VARCHAR,BLOB account);");
     }
 
     @Override
@@ -51,8 +52,8 @@ public class InDBAccountDAO implements AccountDAO {
 
     @Override
     public List<Account> getAccountsList() {
-        List<String> accnames = null;
-        Cursor cursor = myDB.rawQuery("SELECT Username FROM Accounts", null);
+        List<Account> accnames = null;
+        Cursor cursor = myDB.rawQuery("SELECT account FROM Accounts", null);
 
         if (cursor != null) {
 
@@ -60,9 +61,10 @@ public class InDBAccountDAO implements AccountDAO {
 
                 do {
 
-                    String num = cursor.getString(cursor.getColumnIndex("Username"));
+                    Object num = cursor.getBlob(cursor.getColumnIndex("account"));
+                    Account ob = (Account) num;
 
-                    accnames.add(num);
+                    accnames.add(ob);
 
                 } while (cursor.moveToNext());
 
@@ -79,8 +81,8 @@ public class InDBAccountDAO implements AccountDAO {
 
     @Override
     public void addAccount(Account account) {
-        myDB.execSQL("INSERT INTO Accounts VALUES('" + account.getAccountHolderName() +"','"+account.getAccountNo()+"','"+account.getBankName()+"','"+account.getBalance()+"');");
-
+        //myDB.execSQL("INSERT INTO Accounts VALUES('" + account.getAccountHolderName() +"','"+account.getAccountNo()+"','"+account.getBankName()+"','"+account.getBalance()+"');");
+        myDB.execSQL("INSERT INTO Accounts VALUES('"+account.getAccountNo()+"', '"+ account +"');");
 
     }
 
