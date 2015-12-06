@@ -17,7 +17,7 @@ public class InDBTransactionDAO implements TransactionDAO{
     private final SQLiteDatabase myDB;
 
     public InDBTransactionDAO() {
-        this.myDB = SQLiteDatabase.openOrCreateDatabase("130217B" ,null);
+        this.myDB = SQLiteDatabase.openOrCreateDatabase("130217b.db" ,null);
         this.myDB.execSQL("CREATE TABLE IF NOT EXISTS Transactions(Date DATE,AccountNO VARCHAR,expenseType VARCHAR,amount NUMERIC(7,2));");
     }
     @Override

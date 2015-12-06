@@ -19,17 +19,18 @@ import android.database.sqlite.*;
 /**
  * Created by NADUN on 12/5/2015.
  */
-public class InDBAccountDAO implements AccountDAO {
+public class InDBAccountDAO implements AccountDAO  {
 
     private final SQLiteDatabase myDB;
 
     public InDBAccountDAO() {
-        this.myDB = SQLiteDatabase.openOrCreateDatabase("130217B",null);
+        this.myDB = SQLiteDatabase.openOrCreateDatabase("130217b.db",null);
         this.myDB.execSQL("CREATE TABLE IF NOT EXISTS Accounts(AccountNO VARCHAR,BankName VARCHAR,HolderName VARCHAR,balance NUMERIC(7,2));");
     }
 
     @Override
     public List<String> getAccountNumbersList() {
+
         List<String> anums  = null;
         anums.add("sedfr4");
         System.out.println(anums.size());
