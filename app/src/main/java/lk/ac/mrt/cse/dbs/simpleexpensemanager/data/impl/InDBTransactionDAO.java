@@ -51,7 +51,7 @@ public class InDBTransactionDAO implements TransactionDAO{
         List<Transaction> transactions = new ArrayList<>();
 
         SQLiteDatabase db = helper.getWritableDatabase();
-        Cursor cursor = db.rawQuery("SELECT * FROM"+ helper.TABLE_ACCOUNT,null);
+        Cursor cursor = db.rawQuery("SELECT * FROM "+ helper.TABLE_TRANSACTION,null);
 
         cursor.moveToFirst();
         while (!cursor.isAfterLast()) {
@@ -81,8 +81,35 @@ public class InDBTransactionDAO implements TransactionDAO{
     @Override
     public List<Transaction> getPaginatedTransactionLogs(int limit) {
 
+        SQLiteDatabase db = helper.getWritableDatabase();
+        Cursor cursor = db.rawQuery("Select * FROM " + helper.TABLE_TRANSACTION + " ORDER BY " + helper.COLUMN_DATE + " LIMIT " + limit, null);
 
 
-        return null;
+        List<Transaction> transactions =  new ArrayList<>();
+
+        if (cursor.moveToFirst()) {
+            do{
+                Transaction transaction = null;
+
+                Date date = null;
+                String dateString = cursor.getString(1);
+                SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd-MM-yyyy");
+                try {
+                    date = simpleDateFormat.parse(dateString);
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
+
+                String accountNo = cursor.getString(0);
+                ExpenseType expenseType = ExpenseType.valueOf(cursor.getString(2));
+                Double amount = cursor.getDouble(3);
+                transaction= new Transaction(date, accountNo ,expenseType , amount);
+                transactions.add(transaction);
+
+            }while (cursor.moveToNext());
+        }
+        cursor.close();
+        db.close();
+        return transactions;
     }
 }

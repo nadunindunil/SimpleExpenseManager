@@ -34,24 +34,28 @@ public class InDBAccountDAO implements AccountDAO  {
     @Override
     public List<String> getAccountNumbersList() {
 
-        List<String> AccNumberList  = null;
+        List<String> AccNumberList  = new ArrayList<>();
 
-        System.out.println(AccNumberList.size());
+        //System.out.println(AccNumberList.size());
         System.out.println("in the accounts number list");
 
         SQLiteDatabase db = helper.getWritableDatabase();
-        Cursor cursor = db.rawQuery("SELECT accountNO FROM"+ helper.TABLE_ACCOUNT, null);
+        Cursor cursor = db.rawQuery("SELECT accountNo FROM "+ helper.TABLE_ACCOUNT, null);
 
         if (cursor != null) {
             if (cursor.moveToFirst()) {
                 do {
-                    String num = cursor.getString(cursor.getColumnIndex("AccountNO"));
+                    String num = cursor.getString(0);
+                    System.out.println(num + "this is num!");
                     AccNumberList.add(num);
+
+                    System.out.println(num + "this is num2!");
                 } while (cursor.moveToNext());
             }
         }
         cursor.close();
         db.close();
+        System.out.println(AccNumberList.size());
         return AccNumberList;
     }
 
@@ -61,7 +65,7 @@ public class InDBAccountDAO implements AccountDAO  {
         List<Account> accountList = new ArrayList<>();
 
         SQLiteDatabase db = helper.getWritableDatabase();
-        Cursor cursor = db.rawQuery("SELECT * FROM"+ helper.TABLE_ACCOUNT,null);
+        Cursor cursor = db.rawQuery("SELECT * FROM "+ helper.TABLE_ACCOUNT,null);
 
         cursor.moveToFirst();
         while (!cursor.isAfterLast()) {
@@ -100,12 +104,14 @@ public class InDBAccountDAO implements AccountDAO  {
 
     @Override
     public void addAccount(Account account) {
+
         ContentValues values = new ContentValues();
         values.put(helper.COLUMN_ACCOUNT_NO,account.getAccountNo());
+        values.put(helper.COLUMN_BANK_NAME,account.getBankName());
         values.put(helper.COLUMN_ACCOUNT_HOLDER,account.getAccountHolderName());
         values.put(helper.COLUMN_BALANCE,account.getBalance());
-        values.put(helper.COLUMN_BANK_NAME,account.getBankName());
 
+        System.out.println(account.getAccountNo());
         SQLiteDatabase db = helper.getWritableDatabase();
         db.insert(DBHelper.TABLE_ACCOUNT,null,values);
         db.close();
@@ -117,7 +123,7 @@ public class InDBAccountDAO implements AccountDAO  {
         List<String> AccountList = this.getAccountNumbersList();
         if (AccountList.contains(accountNo)){
             SQLiteDatabase db = helper.getWritableDatabase();
-            db.execSQL("delete from accounts where accountNo='"+accountNo+"'");
+            db.execSQL("delete from accounts where accountNo= '"+accountNo+"'");
             db.close();
 
         }
