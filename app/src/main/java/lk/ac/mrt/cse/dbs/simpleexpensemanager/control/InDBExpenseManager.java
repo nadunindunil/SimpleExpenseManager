@@ -8,8 +8,6 @@ import lk.ac.mrt.cse.dbs.simpleexpensemanager.data.DBHelper;
 import lk.ac.mrt.cse.dbs.simpleexpensemanager.data.TransactionDAO;
 import lk.ac.mrt.cse.dbs.simpleexpensemanager.data.impl.InDBAccountDAO;
 import lk.ac.mrt.cse.dbs.simpleexpensemanager.data.impl.InDBTransactionDAO;
-import lk.ac.mrt.cse.dbs.simpleexpensemanager.data.impl.InMemoryAccountDAO;
-import lk.ac.mrt.cse.dbs.simpleexpensemanager.data.impl.InMemoryTransactionDAO;
 import lk.ac.mrt.cse.dbs.simpleexpensemanager.data.model.Account;
 
 /**
@@ -38,7 +36,7 @@ public class InDBExpenseManager extends ExpenseManager {
         AccountDAO inDBAccountDAO = new InDBAccountDAO(dbHelper);
         setAccountsDAO(inDBAccountDAO);
 
-
+        // Dummy Data
         Account dummyAcct1 = new Account("12345A", "Yoda Bank", "Anakin Skywalker", 10000.0);
         Account dummyAcct2 = new Account("78945Z", "Clone BC", "Obi-Wan Kenobi", 80000.0);
         Account dummyAcct3 = new Account("70990Z", "Deathstar BC", "Han Solo", 10000.0);

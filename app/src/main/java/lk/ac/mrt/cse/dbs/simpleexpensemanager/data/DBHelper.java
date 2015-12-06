@@ -29,14 +29,7 @@ public class DBHelper extends SQLiteOpenHelper {
     public static final String COLUMN_AMOUNT = "amount";
 
     //queries
-//    String CREATE_ACCOUNT_TABLE = "CREATE TABLE " + TABLE_ACCOUNT + "("
-//            + COLUMN_ACCOUNT_NO + " VARCHAR(6) PRIMARY KEY," + COLUMN_BANK_NAME
-//            + " VARCHAR(50)," + COLUMN_ACCOUNT_HOLDER + " VARCHAR(30)," + COLUMN_BALANCE + " DOUBLE "+ ")";
-//
-//    String CREATE_TRANSACTION_TABLE = "CREATE TABLE " + TABLE_TRANSACTION + "("
-//            + COLUMN_ACCOUNT_NO + " VARCHAR(6)," + COLUMN_DATE
-//            + " VARCHAR(10)," + COLUMN_EXPENSE_TYPE + " VARCHAR(10), " + COLUMN_AMOUNT +
-//            " DOUBLE " + ")";
+
     String CREATE_ACCOUNT_TABLE = "Create Table accounts(accountNo varchar(6),bankName varchar(50),accountHolderName varchar(30),balance double);";
     String CREATE_TRANSACTION_TABLE = "Create Table transactions(accountNo varchar(6),date varchar(10),expenseType varchar(10),amount double);";
 

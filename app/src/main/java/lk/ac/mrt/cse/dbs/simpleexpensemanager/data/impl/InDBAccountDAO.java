@@ -36,7 +36,7 @@ public class InDBAccountDAO implements AccountDAO  {
 
         List<String> AccNumberList  = new ArrayList<>();
 
-        //System.out.println(AccNumberList.size());
+
         System.out.println("in the accounts number list");
 
         SQLiteDatabase db = helper.getWritableDatabase();
