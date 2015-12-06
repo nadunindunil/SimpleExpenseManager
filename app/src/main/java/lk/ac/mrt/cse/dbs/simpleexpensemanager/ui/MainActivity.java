@@ -67,7 +67,7 @@ public class MainActivity extends AppCompatActivity {
 
         /***  Begin generating dummy data for In-Memory implementation  ***/
         //expenseManager = new InMemoryDemoExpenseManager();
-        expenseManager = new InDBExpenseManager();
+        expenseManager = new InDBExpenseManager(this);
         System.out.println("in main !");
         /*** END ***/
     }
